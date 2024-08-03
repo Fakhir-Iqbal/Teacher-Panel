@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import AssignmentForm from './AssignmentForm';
 import AssignmentList from './AssignmentList';
 
@@ -6,8 +7,16 @@ const ClassroomPage = () => {
   const [assignments, setAssignments] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
+  useEffect(() => {
+    // Load assignments from local storage when the component mounts
+    const storedAssignments = JSON.parse(localStorage.getItem('assignments')) || [];
+    setAssignments(storedAssignments);
+  }, []);
+
   const handleAddAssignment = (newAssignment) => {
-    setAssignments([...assignments, newAssignment]);
+    const updatedAssignments = [...assignments, newAssignment];
+    setAssignments(updatedAssignments);
+    localStorage.setItem('assignments', JSON.stringify(updatedAssignments));
     setShowForm(false);
   };
 
