@@ -1,22 +1,32 @@
 // ClassroomPage.js
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import AssignmentForm from './AssignmentForm';
+import AssignmentList from './AssignmentList';
 
 const ClassroomPage = () => {
-  const { classroomId } = useParams();
-  const [classroom, setClassroom] = useState(null);
+  const [assignments, setAssignments] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
-    const storedClassrooms = JSON.parse(localStorage.getItem('classrooms')) || [];
-    const foundClassroom = storedClassrooms.find(cls => cls.id === parseInt(classroomId));
-    setClassroom(foundClassroom);
-  }, [classroomId]);
-
-  if (!classroom) return <div>Classroom not found!</div>;
+  const handleAddAssignment = (newAssignment) => {
+    setAssignments([...assignments, newAssignment]);
+    setShowForm(false);
+  };
 
   return (
-    <div>
-      <h1>Classroom: {classroom.name}</h1>
+    <div style={{ padding: '20px' }}>
+      <h1>Classroom</h1>
+      <button 
+        onClick={() => setShowForm(true)} 
+        style={{ marginBottom: '20px', padding: '10px 20px', backgroundColor: '#007BFF', color: 'white', border: 'none', borderRadius: '4px' }}
+      >
+        + Add Assignment
+      </button>
+
+      {showForm && (
+        <AssignmentForm onClose={() => setShowForm(false)} onSave={handleAddAssignment} />
+      )}
+
+      <AssignmentList assignments={assignments} />
     </div>
   );
 };
