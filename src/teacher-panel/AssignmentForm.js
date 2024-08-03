@@ -1,4 +1,3 @@
-// AssignmentForm.js
 import React, { useState } from 'react';
 
 const AssignmentForm = ({ onClose, onSave }) => {

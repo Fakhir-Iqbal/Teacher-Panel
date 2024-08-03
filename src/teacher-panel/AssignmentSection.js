@@ -1,4 +1,3 @@
-// AssignmentSection.js
 import React, { useState } from 'react';
 import AssignmentForm from './AssignmentForm';
 
